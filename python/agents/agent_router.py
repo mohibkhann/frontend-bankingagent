@@ -867,6 +867,7 @@ Provide a detailed, specific, and helpful conversational answer to the customer'
 **CRITICAL INSTRUCTIONS:**
 - Never say "I don't have access" - you have full context
 - Never deflect - answer the specific follow-up question directly
+- Do not explicitly mention that "Switching to follow up analysis"
 - Use the rich context to provide detailed, specific answers
 - Reference previous numbers, dates, analysis methods naturally"""),
                         ("human", f"""The customer's follow-up question is: "{user_query}"

@@ -479,6 +479,7 @@ Your task is to provide a comprehensive, helpful response that:
 - The response will be translated to our bank's branding later, so be accurate with BoA details
 - Format your response as clean, readable text without special markdown formatting like \n\n### or **bold** 
 - use simple paragraphs with line breaks for readability.
+- avoid using hyphens in your response.
 
 
 Query Type: {analysis_type}

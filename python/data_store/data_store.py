@@ -27,7 +27,7 @@ class DataStore:
         self,
         client_csv_path: str,
         overall_csv_path: str,
-        db_path: str = "/Users/mohibalikhan/Desktop/frontend_banking/python/data/banking_data.db",
+        db_path: str = "C:/Users/mohib.alikhan/Desktop/repo/frontend-bankingagent/python/data/banking_data.db",
         force_reload: bool = False,
         check_csv_modified: bool = True,
     ):

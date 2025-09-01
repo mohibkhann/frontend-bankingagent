@@ -11,13 +11,14 @@ interface ChatMessageProps {
 
 const ChatMessage: React.FC<ChatMessageProps> = ({ message, isLoading = false }) => {
   const formatResponse = (text: string) => {
-  return text
-    .replace(/\\n\\n/g, '\n\n')  // Fix double newlines
-    .replace(/\\n/g, '\n')       // Fix single newlines
-    .replace(/\*\*(.*?)\*\*/g, '$1')  // Remove **bold** markers
-    .replace(/^\d+\.\s/gm, '• ')      // Replace numbered lists with bullets
-    .trim();
-};
+    return text
+      .replace(/\\n\\n/g, '\n\n')
+      .replace(/\\n/g, '\n')
+      .replace(/\*\*(.*?)\*\*/g, '$1')
+      .replace(/^\s*###\s*/gm, '')      // remove "### " at line start
+      .replace(/^\d+\.\s/gm, '• ')
+      .trim();
+    };
   const isUser = message?.type === 'user';
   console.log("message: ", message)
   useEffect(()=> {

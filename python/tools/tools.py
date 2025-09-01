@@ -74,7 +74,7 @@ def _ensure_datastore() -> DataStore:
         _datastore = DataStore(
             client_csv_path=Path(__file__).parent / "Banking_Data.csv",
             overall_csv_path=Path(__file__).parent / "overall_data.csv",
-            db_path="/Users/mohibalikhan/Desktop/frontend_banking/python/data/banking_data.db",
+            db_path="C:/Users/mohib.alikhan/Desktop/repo/frontend-bankingagent/python/data/banking_data.db",
         )
     return _datastore
 
@@ -187,6 +187,7 @@ def generate_sql_for_client_analysis(
             - ALWAYS include WHERE client_id = {client_id}
             - Use the CURRENT DATE CONTEXT above for date filtering
             - If the user explicitly mentions specific dates/years (e.g., "2021 or 2023"), you MAY use those exact periods with range filters (YYYY-01-01 to YYYY-12-31). Otherwise, NEVER hardcode years; derive from the provided date context
+            - If the user mentions recent months then get for last 6 months
             - Use indexed columns: client_id, date, mcc_category, amount
             - Date format YYYY-MM-DD
             - Use meaningful aliases in your query
