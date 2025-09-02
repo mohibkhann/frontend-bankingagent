@@ -721,8 +721,8 @@ class DataStore:
 
             # 4) Flip the active row to inactive
             self.conn.execute(
-                "UPDATE user_budgets SET is_active=0, updated_date=? WHERE id=?",
-                (now_iso, budget_id)
+                "UPDATE user_budgets SET is_active=0, updated_date=? WHERE id=? AND category=?",
+                (now_iso, budget_id, category)
             )
 
             # 5) Clean future tracking

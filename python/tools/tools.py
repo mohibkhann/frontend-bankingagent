@@ -9,7 +9,6 @@ from pathlib import Path
 # Import the DataStore 
 # from banking_agent.data_store.data_store import DataStore
 from typing import Any, Dict, List, Optional, TypedDict, Annotated
-
 from data_store.data_store import DataStore
 
 # for current time calculation 
@@ -57,7 +56,7 @@ WHEN USER SAYS:
 - "last month" → use dates {last_month_start.strftime("%Y-%m-%d")} to {last_month_end.strftime("%Y-%m-%d")}
 - "this month" → use dates {current_month_start.strftime("%Y-%m-%d")} to {now.strftime("%Y-%m-%d")}
 - "last year" → use dates {last_year_start.strftime("%Y-%m-%d")} to {last_year_end.strftime("%Y-%m-%d")}
-- "recent" or "lately" → use last 30 days: {(now - timedelta(days=30)).strftime("%Y-%m-%d")} to {now.strftime("%Y-%m-%d")}
+- "recent" or "lately" → use last 90 days: {(now - timedelta(days=90)).strftime("%Y-%m-%d")} to {now.strftime("%Y-%m-%d")}
 """
     return context
 
@@ -68,7 +67,7 @@ _datastore: Optional[DataStore] = None
 
 
 def _ensure_datastore() -> DataStore:
-    """Ensure global datastore is initialized."""
+    """Instance of global datastore is initialized."""
     global _datastore
     if _datastore is None:
         _datastore = DataStore(
@@ -89,8 +88,6 @@ def generate_sql_for_client_analysis(
     """
     ds = _ensure_datastore()
     schema = ds.get_schema_info()["client_transactions"]
-
-    # Get current date context
     date_context = get_current_date_context()
 
     # Build enhanced schema description with MCC intelligence
@@ -152,6 +149,9 @@ def generate_sql_for_client_analysis(
             - User asks: "total by category", "spending categories", "overall breakdown"
             - First-time category analysis
             - General spending summaries
+            Use only these exact strings in mcc_category filters and GROUP BY:
+            ('Financial Services','Utilities','Insurance','Groceries','Restaurants','Bars & Alcohol','Wholesale & Retail','Clothing & Apparel','Pharmacy','Healthcare',
+            'Transportation','Lodging & Travel','Telecom','Home & Furnishings','Auto Services','Entertainment','Electronics & Digital','Professional Services')
 
             **SQL EXAMPLES:**
 
@@ -182,6 +182,23 @@ def generate_sql_for_client_analysis(
             WHERE client_id = {client_id} AND mcc_category = 'Restaurants'
             GROUP BY mcc_original
             ORDER BY total_spent DESC;
+
+            NIGHT TRANSACTION HANDLING (is_night_txn):
+            INTENT DETECTION: If the user mentions “night”, “late-night”, “after hours”, “evening”, “nighttime”, “night spend/transactions”.
+            RULES:
+            If the user focuses on night only → add AND is_night_txn = 1.
+            If the user asks to compare night vs day → group by is_night_txn (0=day, 1=night). Do not pick a winner.
+            If the user adds weekend night → also add AND is_weekend = 1.
+            Combine naturally with MCC granularity and area filters when present.
+
+
+            WEEKEND TRANSACTION HANDLING (is_weekend)=
+            INTENT DETECTION: Trigger when the user mentions “weekend”, “weekdays”, “Saturday/Sunday”, “compare weekend vs weekday”, or “weekend nights”.
+            RULES:
+            Weekend only → add AND is_weekend = 1.
+            Weekday only → add AND is_weekend = 0.
+            Compare weekend vs weekday → group by is_weekend (do not pick a winner).
+            Weekend night → combine with AND is_night_txn = 1 and AND is_weekend = 1.
 
             CRITICAL REQUIREMENTS:
             - ALWAYS include WHERE client_id = {client_id}

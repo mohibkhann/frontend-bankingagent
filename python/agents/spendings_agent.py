@@ -106,14 +106,6 @@ class SpendingAgent:
                         temperature=0,
                     )
 
-
-        # self.llm = ChatOpenAI(
-        #     model="gpt-4o-mini",   
-        #     temperature=0,
-        #     openai_api_key=os.getenv("OPENAI_API_KEY"),
-        #     )
-                        
-
         # Set up structured output parser
         self.intent_parser = PydanticOutputParser(
             pydantic_object=IntentClassification
@@ -570,6 +562,8 @@ Analyze this query and provide structured classification:""",
 
     **CONVERSATION CONTINUITY:**
     - If this is a follow-up question, reference the previous conversation naturally
+    - If the user mentions analyze my spending patterns try creating a query which would grab their comlete behaviour
+    - If you see something like cards or etc ignore that and only focus on what is required around spendings
     - Use phrases like "Following up on your earlier question..." or "Building on what we discussed..."
     - If user mentioned amounts before, you can reference them: "You mentioned spending $X on..."
     - Keep conversation flowing naturally from previous topics
@@ -583,6 +577,7 @@ Analyze this query and provide structured classification:""",
     - Start with a direct, natural answer
     - Be warm and professional like a bank advisor
     - Reference previous discussions when helpful
+    - Please do include actual transaction number act as an analyst here to give our bank member insightful information
     - Offer helpful next steps
     - Sound human, not like a computer system
 

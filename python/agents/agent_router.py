@@ -753,7 +753,7 @@ Analyze the follow-up question and determine the optimal handling strategy:
    - User asks for clarification on previous response ("what did you mean by X?")
    - Asking about methodology/calculation details that can be explained ("how did you calculate that?")
    - Simple follow-up questions that reference previous data ("which months were those?")
-   - Requesting more details about already-provided information
+   - Requesting more details about already-provided information this would mean to connect with other agents such as spending, budget or rag
 
 2. **AGENT EXECUTION** - Execute another agent when:
    - User requests NEW analysis based on previous discussion ("based on my spending, create a budget")
@@ -788,6 +788,8 @@ Follow-up: "What did you mean by overspending in restaurants?"
 
 Follow-up: "Which months did you use for that calculation?"
 → requires_agent_execution: FALSE, response_strategy: "conversational"
+
+- When answering never explicitly mention "Switching to follow up"
 
 **FORMAT INSTRUCTIONS:**
 {format_instructions}
@@ -867,7 +869,7 @@ Provide a detailed, specific, and helpful conversational answer to the customer'
 **CRITICAL INSTRUCTIONS:**
 - Never say "I don't have access" - you have full context
 - Never deflect - answer the specific follow-up question directly
-- Do not explicitly mention that "Switching to follow up analysis"
+- Avoid explicitly mentioning "Switching to follow up analysis"
 - Use the rich context to provide detailed, specific answers
 - Reference previous numbers, dates, analysis methods naturally"""),
                         ("human", f"""The customer's follow-up question is: "{user_query}"
@@ -1205,6 +1207,7 @@ Please provide a helpful response based on our previous conversation.""")
                 context.key_insights = context.key_insights[-5:]
 
                 print(f"[DEBUG] 💾 Stored interaction: {context.last_user_query[:50] if context.last_user_query else 'Unknown'}... -> {len(final_response) if final_response else 0} chars")
+                print(f"[DEBUG] 📝 Final Response: {final_response}")
                 print(f"[DEBUG] 📚 Total conversation history: {len(context.conversation_history)} interactions")
                 
                 # Log follow-up pattern if detected
@@ -1358,8 +1361,7 @@ Provide a brief, natural response that redirects them to finance topics.""")
             user_query=user_query,
             conversation_context=None,
             routing_decision=None,
-            follow_up_routing=None,  # NEW: Enhanced follow-up routing
-            primary_response=None,
+            follow_up_routing=None,  
             secondary_response=None,
             final_response="",
             messages=[HumanMessage(content=user_query)],

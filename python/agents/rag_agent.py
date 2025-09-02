@@ -195,7 +195,6 @@ class RAGAgent:
 
     def _intent_classifier_node(self, state: RAGAgentState) -> RAGAgentState:
         """Enhanced intent classification for RAG queries"""
-        # Same as before - no changes needed
         try:
             print(f"🔍 [DEBUG] Classifying RAG intent for: {state['user_query']}")
 
@@ -204,7 +203,7 @@ class RAGAgent:
                     "system",
                     """You are an AI assistant that classifies user queries for a banking RAG system.
 
-Analyze the user's query and determine the classification details as before...
+Analyze the user's query and determine the classification details as before
 
 {format_instructions}
 
@@ -742,7 +741,7 @@ What specific GX Bank product or service would you like to learn more about?"""
         if "last month" in query_lower:
             return "How much did I spend last month?"
         elif "afford" in query_lower:
-            return "What are my recent spending patterns and monthly totals?"
+            return "What are my recent spending patterns, monthly totals and yearly income?"
         elif "spending" in query_lower:
             return "Show me my spending breakdown by category for recent months"
         else:
@@ -755,9 +754,9 @@ What specific GX Bank product or service would you like to learn more about?"""
         if "afford" in query_lower:
             return "How am I doing against my budgets and what's my available budget?"
         elif "budget" in query_lower:
-            return "How am I following my budgets?"
+            return "What are my active budgets"
         else:
-            return "What's my current budget status?"
+            return "What's my current active budget status?"
 
     def _fallback_rag_classification(self, user_query: str) -> Dict[str, Any]:
         """Enhanced fallback RAG intent classification using keywords"""

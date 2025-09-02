@@ -71,13 +71,21 @@ const Index = () => {
         
         {/* Floating particles */}
         <div className="absolute inset-0 overflow-hidden pointer-events-none">
-          <div className="absolute top-1/4 left-1/4 w-2 h-2 bg-primary/20 rounded-full animate-float" style={{ animationDelay: '0s', animationDuration: '4s' }}></div>
+          <div className="absolute top-1/4 left-1/4 w-2 h-2 bg-primary/20 rounded-full animate-float" style={{ animationDelay: '5s', animationDuration: '4s' }}></div>
           <div className="absolute top-3/4 right-1/4 w-1 h-1 bg-secondary/30 rounded-full animate-float" style={{ animationDelay: '2s', animationDuration: '6s' }}></div>
           <div className="absolute top-1/2 right-1/3 w-1.5 h-1.5 bg-accent-blue/25 rounded-full animate-float" style={{ animationDelay: '1s', animationDuration: '5s' }}></div>
         </div>
 
         <div className="relative z-10">
-          <h1 className="gx-logo text-5xl md:text-7xl mb-6 group-hover:scale-105 transition-transform duration-500">GXBank</h1>
+          {/* Logo replacing the text "GXBank" */}
+          <div className="mb-6">
+            <img
+              src="https://cdn.brandfetch.io/idSuLRzhpk/w/1200/h/400/theme/dark/logo.png?c=1bxid64Mup7aczewSAYMX&t=1752670667089"  
+              alt="GXBank"
+              className="mx-auto h-14 md:h-20 w-auto transition-transform duration-500 group-hover:scale-105 select-none"
+            />
+          </div>
+
           <h2 className="text-xl md:text-3xl font-semibold text-foreground/90 mb-3 tracking-tight">
             AI-Powered Banking Assistant
           </h2>
@@ -105,7 +113,7 @@ const Index = () => {
                       
                       <div className="relative z-10">
                         <div className="text-6xl mb-6 animate-float filter drop-shadow-lg" style={{ animationDuration: '4s' }}>
-                          🏦
+                          
                         </div>
                         <h3 className="text-3xl md:text-4xl font-bold bg-gradient-to-r from-accent-green via-primary to-secondary bg-clip-text text-transparent mb-6">
                           Welcome to GX Bank Assistant!
@@ -156,21 +164,6 @@ const Index = () => {
                         example="Predict my spending for next month"
                         description="Leverage AI to forecast trends and plan ahead."
                       />
-                    </div>
-
-                    {/* Enhanced Pro Tip */}
-                    <div className="glass-container rounded-2xl p-8 text-center border-secondary/30 bg-gradient-to-br from-secondary/5 to-primary/5 relative overflow-hidden">
-                      <div className="absolute inset-0 bg-gradient-to-r from-secondary/10 via-transparent to-primary/10 animate-pulse"></div>
-                      
-                      <div className="relative z-10">
-                        <div className="inline-flex items-center justify-center w-12 h-12 bg-gradient-to-r from-secondary to-primary rounded-full mb-4">
-                          <span className="text-2xl">💡</span>
-                        </div>
-                        <h4 className="text-secondary font-bold text-xl mb-3">Pro Tip</h4>
-                        <p className="text-foreground/90 text-lg leading-relaxed">
-                          Ask me anything in natural language - I understand context and can help with complex financial queries!
-                        </p>
-                      </div>
                     </div>
                   </div>
                 ) : (
